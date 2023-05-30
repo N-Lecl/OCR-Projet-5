@@ -49,7 +49,7 @@ function createEvents() {
         // Creation d'un objet type à envoyer dans localStorage
         const objectProduct = {
             id: idProduct,
-            quantity: quantityProduct,
+            quantity: quantityProduct, 
             colors: colorProduct
         };
 
@@ -67,6 +67,43 @@ function createEvents() {
     })
 }
 
+// fonction set pour envoyer l'objet au local Storage
+function setBasket(basket) {
+    // Transformation des données en string
+    localStorage.setItem("basket", JSON.stringify(basket));
+}
+
+// Fonction get pour récupérer les objets présents dans le localStorage
+function getBasket() {
+    let basket = localStorage.getItem("basket");
+    // Si un objet null est envoyé au localStorage alors il retourne un tableau vide
+    if (basket == null) {
+        return [];
+    } else {
+        // Sinon il retourne les données en parse au paramètre basket
+        return JSON.parse(basket);
+    }
+}
+
+// Envoi des données du set vers le get
+function addToBasket(objectProduct) {
+    let basket = getBasket();
+    // Creation d'une boucle et d'une condition pour incrémenter un article de === id && === couleur
+    // pour ne pas créer de doublon et ajouter +n à la quantity !
+    for (let i in basket) {
+        const presentInBasket = basket[i];
+        if (objectProduct.id === presentInBasket.id && objectProduct.colors === presentInBasket.colors) {
+            presentInBasket.quantity = objectProduct.quantity + presentInBasket.quantity;
+            // On sauvegarde les données dans le set et on les retourne si la condition est acceptée
+            setBasket(basket);
+            return;
+        }
+    }
+    // On sauvegarde les données dans le set et on les retourne si la condition de la fonction est acceptée
+    basket.push(objectProduct);
+    setBasket(basket);
+    return;
+}
 
 //Fonction "main" pour rassembler mes différentes fonctions utilisées
 async function main() {
