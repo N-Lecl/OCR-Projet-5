@@ -49,7 +49,7 @@ function createEvents() {
         // Creation d'un objet type à envoyer dans localStorage
         const objectProduct = {
             id: idProduct,
-            quantity: quantityProduct, 
+            quantity: quantityProduct,
             colors: colorProduct
         };
 
