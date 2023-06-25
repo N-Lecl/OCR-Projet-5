@@ -42,30 +42,31 @@ function createEvents() {
     pushToBasket.addEventListener("click", function (e) {
         e.preventDefault();
         let idProduct = productId;
-        // parseInt de la fonction quantityProduct pour analyser ma chaine de caractère en nombre entier
         let quantityProduct = parseInt(document.getElementById("quantity").value);
         let colorProduct = document.getElementById("colors").value;
 
-        // Creation d'un objet type à envoyer dans localStorage
-        const objectProduct = {
-            id: idProduct,
-            quantity: quantityProduct,
-            colors: colorProduct
-        };
-
-
-        // Confirmation d'envoi au panier si une couleur a été sélectionnée
         if (colorProduct) {
-            if (window.confirm("Voulez-vous ajouter cet article au panier ?")) {
-                addToBasket(objectProduct);
-                window.alert(`${quantityProduct} ${document.getElementById("title").textContent} ${colorProduct} ajouté(s) au panier 🛒`)
+            // Vérifier si la quantité est valide (comprise entre 1 et 100)
+            if (quantityProduct >= 1 && quantityProduct <= 100) {
+                const objectProduct = {
+                    id: idProduct,
+                    quantity: quantityProduct,
+                    colors: colorProduct
+                };
+
+                if (window.confirm("Voulez-vous ajouter cet article au panier ?")) {
+                    addToBasket(objectProduct);
+                    window.alert(`${quantityProduct} ${document.getElementById("title").textContent} ${colorProduct} ajouté(s) au panier 🛒`)
+                }
+            } else {
+                window.alert("Veuillez choisir une quantité comprise entre 1 et 100.");
             }
         } else {
-            window.alert("Veuillez choisir une couleur !")
+            window.alert("Veuillez choisir une couleur !");
         }
-
     })
 }
+
 
 // fonction set pour envoyer l'objet au local Storage
 function setBasket(basket) {

@@ -86,22 +86,31 @@ function listenQttEvent() {
       const dataColor = parent.dataset.color;
       const valueQtt = parseInt(e.target.value);
 
-      changeQttEvent(dataId, dataColor, valueQtt);
+      if (valueQtt < 1 || valueQtt > 100) {
+        e.target.value = 1; // Rétablir la valeur à 1 par défaut
+        alert("La quantité doit être comprise entre 1 et 100. Veuillez corriger votre choix.");
+      } else {
+        changeQttEvent(dataId, dataColor, valueQtt);
+      }
     })
   }
 }
 
 
 
-function changeQttEvent(id, color, quantity) {
-  let showBasket = getBasket();
-  for (let i in showBasket) {
 
-    if (showBasket[i].id === id && showBasket[i].colors === color) {
-      showBasket[i].quantity = quantity;
-      setBasket(showBasket);
-      location.reload();
+function changeQttEvent(id, color, quantity) {
+  if (quantity >= 1 && quantity <= 100) {
+    let showBasket = getBasket();
+    for (let i in showBasket) {
+      if (showBasket[i].id === id && showBasket[i].colors === color) {
+        showBasket[i].quantity = quantity;
+        setBasket(showBasket);
+        location.reload();
+      }
     }
+  } else {
+    alert("La quantité doit être comprise entre 1 et 100. Veuillez corriger votre choix.");
   }
 }
 
